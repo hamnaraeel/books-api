@@ -47,9 +47,7 @@ export async function POST(request: Request) {
 
   // const values = [orderId, bookId, customerName];
   await pool.query(query, values);
-
   // const { id, bookid, customername } = result.rows[0];
-
   return new Response(JSON.stringify({ orderId }));
 }
 
