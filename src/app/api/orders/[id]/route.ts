@@ -28,7 +28,7 @@ export async function PUT(
   const { customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
-    `UPDATE books SET customer_name = $1 WHERE id = $2 RETURNING *`,
+    `UPDATE orders SET customername = $1 WHERE id = $2 RETURNING *`,
     [customerName, params.id]
   );
   console.log(rows);
