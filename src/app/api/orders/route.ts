@@ -8,15 +8,48 @@ export async function GET(request: Request) {
   return new Response(JSON.stringify(rows));
 }
 
-export async function POST(request: Request) {
-  const { bookId, customerName } = await request.json();
+// export async function POST(request: Request) {
+//   const { bookId, customerName } = await request.json();
+//   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+//   const orderId = uuidv4(); // generate a unique token
+//   const query =
+//     "INSERT INTO api_clients (id, bookId, customerName ) VALUES ($1, $2, $3)";
+//   const values = [orderId, bookId, customerName];
+//   await pool.query(query, values);
+//   return new Response(JSON.stringify({ orderId }));
+// }
+
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    res.status(405).json({ message: "Method not allowed" });
+    return;
+  }
+
+  const { bookId, customerName } = req.body;
+  const { authorization } = req.headers;
+  const token = authorization ? authorization.split(" ")[1] : null;
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const clientQuery = "SELECT * FROM api_clients WHERE token = $1";
+  const clientValues = [token];
+  const clientResult = await pool.query(clientQuery, clientValues);
+
+  if (clientResult.rowCount === 0) {
+    res.status(401).json({ message: "Invalid token" });
+    return;
+  }
+
   const orderId = uuidv4(); // generate a unique token
-  const query =
-    "INSERT INTO api_clients (id, bookId, customerName ) VALUES ($1, $2, $3)";
-  const values = [orderId, bookId, customerName];
-  await pool.query(query, values);
-  return new Response(JSON.stringify({ orderId }));
+  const orderQuery =
+    "INSERT INTO orders (orderId, bookId, customerName) VALUES ($1, $2, $3)";
+  const orderValues = [orderId, bookId, customerName];
+  await pool.query(orderQuery, orderValues);
+
+  res.status(200).json({ orderId });
 }
 
 // export async function POST(request: Request) {
