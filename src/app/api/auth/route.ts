@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const KEY = "hgfdhjfjkdsbfjgdsjgfdjhsgffdsfdsfd";
 export default function (req: NextApiRequest, res: NextApiResponse) {
@@ -10,13 +10,13 @@ export default function (req: NextApiRequest, res: NextApiResponse) {
   }
   const { clientName, clientEmail } = req.body;
 
-  res.json({
-    token: jwt.sign(
-      {
-        clientName,
-        clientEmail,
-      },
-      KEY
-    ),
-  });
+  //   res.json({
+  //     token: jwt.sign(
+  //       {
+  //         clientName,
+  //         clientEmail,
+  //       },
+  //       KEY
+  //     ),
+  //   });
 }
