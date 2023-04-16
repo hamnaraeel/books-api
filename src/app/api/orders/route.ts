@@ -22,16 +22,19 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const token = uuidv4(); // generate a unique token
   const orderId = uuidv4(); // generate a unique token
 
   const query =
-    "INSERT INTO orders (id, bookId, customerName) VALUES ($1, $2, $3)";
+    "INSERT INTO orders (id, bookId, customerName) VALUES ($1, $2, $3) RETURNING id, bookId, customerName";
 
   const values = [orderId, bookId, customerName];
-  await pool.query(query, values);
+  const result = await pool.query(query, values);
 
-  return new Response(JSON.stringify({ orderId }));
+  const { id, bookid, customername } = result.rows[0];
+
+  return new Response(
+    JSON.stringify({ id, bookId: bookid, customerName: customername })
+  );
 }
 
 // export async function POST(request: Request) {
