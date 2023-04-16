@@ -6,11 +6,12 @@ export async function POST(request: Request) {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
   const query =
-    "INSERT INTO api_clients (clientName, clientEmail) VALUES ($1, $2)";
+    "INSERT INTO api_clients (clientName, clientEmail, token) VALUES ($1, $2, $3) RETURNING token";
+  // const token = uuidv4(); // generate a unique token
   const values = [clientName, clientEmail];
-  const response = await pool.query(query, values);
+  const token = await pool.query(query, values);
   // const { rows } = response;
-  // const token = rows[0].token;
-  return new Response(JSON.stringify({ response }));
+  // const accessToken = rows[0].token;
+  return new Response(JSON.stringify({ token }));
 }
 export const runtime = "edge";
