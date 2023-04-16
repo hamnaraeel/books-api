@@ -1,4 +1,5 @@
 import { Pool } from "@neondatabase/serverless";
+import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 // export async function POST(request: Request) {
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
     Authorization: `Bearer ${accessToken}`,
   };
   const body = { token: accessToken };
-  return new Response(JSON.stringify(body), { headers });
+  return new NextResponse(JSON.stringify(body), { headers });
 }
 
 export const runtime = "edge";
