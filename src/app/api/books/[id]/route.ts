@@ -17,4 +17,4 @@ export async function GET(
   return new Response(JSON.stringify(rows[0]));
 }
 
-// export const runtime = "edge";
+export const runtime = "edge";
