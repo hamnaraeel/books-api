@@ -22,12 +22,30 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const orderId = uuidv4(); // generate a unique token
+  const bookQuery = "SELECT * FROM books WHERE id = $1";
+  const bookResult = await pool.query(bookQuery, [bookId]);
+  const book = bookResult.rows[0];
+  const orderId = uuidv4();
+  const created = true;
+  const createdBy = customerName;
+  const quantity = 1;
+  const timestamp = Date.now();
 
   const query =
-    "INSERT INTO orders (id, bookId, customerName) VALUES ($1, $2, $3) RETURNING id, bookId, customerName";
+    "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+  const values = [
+    orderId,
+    book.id,
+    customerName,
+    created,
+    createdBy,
+    quantity,
+    timestamp,
+  ];
+  // const query =
+  //   "INSERT INTO orders (id, bookId, customerName) VALUES ($1, $2, $3) RETURNING id, bookId, customerName";
 
-  const values = [orderId, bookId, customerName];
+  // const values = [orderId, bookId, customerName];
   const result = await pool.query(query, values);
 
   const { id, bookid, customername } = result.rows[0];
