@@ -7,11 +7,10 @@ export async function POST(request: Request) {
 
   const query =
     "INSERT INTO api_clients (clientName, clientEmail, token) VALUES ($1, $2, $3) RETURNING token";
-  // const token = uuidv4(); // generate a unique token
+  const token = uuidv4(); // generate a unique token
   const values = [clientName, clientEmail];
-  const token = await pool.query(query, values);
-  // const { rows } = response;
-  // const accessToken = rows[0].token;
+  await pool.query(query, values);
+
   return new Response(JSON.stringify({ token }));
 }
 export const runtime = "edge";
