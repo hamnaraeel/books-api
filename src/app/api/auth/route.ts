@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
 const KEY = "hgfdhjfjkdsbfjgdsjgfdjhsgffdsfdsfd";
-// eslint-disable-next-line import/no-anonymous-default-export
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (!req.body) {
     res.statusCode = 404;
