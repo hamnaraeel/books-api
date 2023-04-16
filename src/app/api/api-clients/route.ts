@@ -1,6 +1,6 @@
 import { Pool } from "@neondatabase/serverless";
 import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   const { clientName, clientEmail } = await request.json();
@@ -17,13 +17,13 @@ export async function POST(request: Request) {
   }
 
   // Generate JWT token
-  const token = jwt.sign(
-    { clientId: rows[0].clientId },
-    process.env.JWT_SECRET,
-    { expiresIn: "1h" }
-  );
+  // const token = jwt.sign(
+  //   { clientId: rows[0].clientId },
+  //   process.env.JWT_SECRET,
+  //   { expiresIn: "1h" }
+  // );
 
-  return new Response(JSON.stringify({ token }));
+  // return new Response(JSON.stringify({ token }));
 }
 
 export const runtime = "edge";
