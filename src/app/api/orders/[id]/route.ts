@@ -10,7 +10,7 @@ export async function GET(
 ) {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
-    `SELECT * FROM books WHERE id = ${params.id}`
+    `SELECT * FROM orders WHERE id = ${params.id}`
   );
   console.log(rows);
   // event.waitUntil(pool.end());  // doesn't hold up the response
