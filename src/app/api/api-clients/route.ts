@@ -12,10 +12,10 @@ export async function POST(request: Request) {
 
   const values = [clientName, clientEmail];
   await pool.query(query, values);
-  const querytoken =
-    "INSERT INTO api_client_tokens (apiClientId, accessToken) VALUES ($1, $2) RETURNING accessToken";
-  const valuestoken = [clientId, token];
-  await pool.query(querytoken, valuestoken);
+  // const querytoken =
+  //   "INSERT INTO api_client_tokens (apiClientId, accessToken) VALUES ($1, $2) RETURNING accessToken";
+  // const valuestoken = [clientId, token];
+  // await pool.query(querytoken, valuestoken);
 
   return new Response(JSON.stringify({ token }));
 }
