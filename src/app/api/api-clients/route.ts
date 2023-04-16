@@ -6,8 +6,8 @@ export async function POST(request: Request) {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const token = uuidv4(); // generate a unique token
   const query =
-    "INSERT INTO api_clients (id, clientName, clientEmail) VALUES ($1, $2, $3)";
-  const values = [token, clientName, clientEmail];
+    "INSERT INTO api_clients (clientName, clientEmail) VALUES ($1, $2)";
+  const values = [clientName, clientEmail];
   await pool.query(query, values);
   return new Response(JSON.stringify({ token }));
 }
