@@ -46,13 +46,11 @@ export async function POST(request: Request) {
   //   "INSERT INTO orders (id, bookId, customerName) VALUES ($1, $2, $3) RETURNING id, bookId, customerName";
 
   // const values = [orderId, bookId, customerName];
-  const result = await pool.query(query, values);
+  await pool.query(query, values);
 
-  const { id, bookid, customername } = result.rows[0];
+  // const { id, bookid, customername } = result.rows[0];
 
-  return new Response(
-    JSON.stringify({ id, bookId: bookid, customerName: customername })
-  );
+  return new Response(JSON.stringify({ orderId }));
 }
 
 // export async function POST(request: Request) {
