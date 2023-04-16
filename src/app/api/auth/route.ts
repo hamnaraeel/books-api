@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
-const KEY = "hgfdhjfjkdsbfjgdsjgfdjhsgf";
+const KEY = "hgfdhjfjkdsbfjgdsjgfdjhsgffdsfdsfd";
 export default function (req: NextApiRequest, res: NextApiResponse) {
   if (!req.body) {
     res.statusCode = 404;
