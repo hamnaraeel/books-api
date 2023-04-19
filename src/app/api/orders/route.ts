@@ -38,8 +38,8 @@ export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const query = await pool.query(
-    "INSERT INTO orders_list ( bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6)",
-    [bookId, customerName, true, "Admin", 1, Date.now()]
+    "INSERT INTO orders_list ( bookId, customerName) VALUES ($1, $2)",
+    [bookId, customerName]
   );
   return new Response(
     JSON.stringify({ message: "Order created successfully", query })
