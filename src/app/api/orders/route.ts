@@ -33,9 +33,10 @@ export async function POST(request: Request) {
   const timestamp = Date.now();
 
   const query =
-    "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id";
+    "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
+  // "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id";
   const values = [
-    orderId,
+    // orderId,
     bookId,
     customerName,
     created,
