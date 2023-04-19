@@ -11,10 +11,9 @@ export async function POST(request: Request) {
 
   const query =
     "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)";
-
   const values = [token, clientName, clientEmail];
   const { rows } = await pool.query(query, values);
-  const userToken = await setUserToken(rows[0]);
-  return new Response(JSON.stringify({ token, userToken }));
+  // const userToken = await setUserToken(rows[0]);
+  return new Response(JSON.stringify({ token, rows }));
 }
 export const runtime = "edge";
