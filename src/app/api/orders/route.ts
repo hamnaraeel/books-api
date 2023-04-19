@@ -21,22 +21,37 @@ export async function GET(request: Request) {
 // }
 
 export async function POST(request: Request) {
-  try {
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    const { bookId, customerName } = await request.json();
+  const { clientName, clientEmail } = await request.json();
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const token = uuidv4(); // generate a unique token
+  const clientId = uuidv4(); // generate a unique token
 
-    // Insert a new order into the database
-    const result = await pool.query(
-      "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [bookId, customerName, false, "", 0, Date.now()]
-    );
+  const query =
+    "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)";
 
-    return { order: result.rows[0] };
-  } catch (error) {
-    console.error(error);
-    return new Response("Internal Server Error", { status: 500 });
-  }
+  const values = [token, clientName, clientEmail];
+  await pool.query(query, values);
+
+  return new Response(JSON.stringify({ token }));
 }
+
+// export async function POST(request: Request) {
+//   try {
+//     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+//     const { bookId, customerName } = await request.json();
+
+//     // Insert a new order into the database
+//     const result = await pool.query(
+//       "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+//       [bookId, customerName, false, "", 1, Date.now()]
+//     );
+
+//     return { order: result.rows[0] };
+//   } catch (error) {
+//     console.error(error);
+//     return new Response("Internal Server Error", { status: 500 });
+//   }
+// }
 
 // export async function POST(request: Request) {
 //   const { bookId, customerName } = await request.json();
