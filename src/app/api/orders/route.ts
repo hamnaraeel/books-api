@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     [bookId, customerName, orderId]
   );
   return new Response(
-    JSON.stringify({ message: "Order created successfully", query })
+    JSON.stringify({ message: "Order created successfully", orderId })
   );
 }
 
