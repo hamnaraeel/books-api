@@ -38,14 +38,14 @@ export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const token = uuidv4(); // generate a unique token
-  // const query = await pool.query(
-  //   "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-  //   ["123", bookId, customerName, true, "Author", 1, 4]
-  // );
   const query = await pool.query(
-    "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)",
-    [token, bookId, customerName]
+    "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+    ["some-uuid", 12345, "John Doe", true, "Admin", 2, 1632530389000]
   );
+  // const query = await pool.query(
+  //   "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)",
+  //   [token, bookId, customerName]
+  // );
 
   return new Response(JSON.stringify({ query }));
 }
