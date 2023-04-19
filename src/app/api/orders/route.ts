@@ -41,8 +41,8 @@ export async function POST(request: Request) {
   const clientId = uuidv4(); // generate a unique token
 
   const query = await pool.query(
-    "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6)",
-    [1, "customerName", true, "", 1, 4]
+    "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+    ["123", 1, "customerName", true, "Author", 1, 4]
   );
 
   return new Response(JSON.stringify({ query, token }));
