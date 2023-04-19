@@ -23,9 +23,9 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const bookQuery = "SELECT * FROM books WHERE id = $1";
-  const bookResult = await pool.query(bookQuery, [bookId]);
-  const book = bookResult.rows[0];
+  // const bookQuery = "SELECT * FROM books WHERE id = $1";
+  // const bookResult = await pool.query(bookQuery, [bookId]);
+  // const book = bookResult.rows[0];
   const orderId = uuidv4();
   const created = true;
   const createdBy = customerName;
