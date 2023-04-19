@@ -45,13 +45,7 @@ export async function POST(request: Request) {
     [bookId, customerName, orderId]
   );
   return new Response(
-    JSON.stringify({ message: "Order created successfully", orderId }),
-    {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": origin || "*",
-      },
-    }
+    JSON.stringify({ message: "Order created successfully", orderId })
   );
 }
 
