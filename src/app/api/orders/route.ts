@@ -37,12 +37,14 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const orderId = uuidv4(); // generate a unique token
+
   const query = await pool.query(
-    "INSERT INTO orders_list ( bookId, customerName) VALUES ($1, $2)",
-    [bookId, customerName]
+    "INSERT INTO orders_list ( bookId, created, createdBy, customerName,  id,  quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6)",
+    [bookId, true, "Admin", customerName, 1, 1, Date.now()]
   );
   return new Response(
-    JSON.stringify({ message: "Order created successfully", query })
+    JSON.stringify({ message: "Order created successfully" })
   );
 }
 
