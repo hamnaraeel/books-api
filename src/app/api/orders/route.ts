@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     [bookId, customerName, true, "Admin", 1, Date.now()]
   );
   return new Response(
-    JSON.stringify({ message: "Order created successfully" })
+    JSON.stringify({ message: "Order created successfully", query })
   );
 }
 
