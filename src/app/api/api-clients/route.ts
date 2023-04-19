@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const values = [token, clientName, clientEmail];
     const { rows } = await pool.query(query, values);
     // const userToken = await setUserToken(rows[0]);
-    return new Response(JSON.stringify({ token, userToken, rows }));
+    return new Response(JSON.stringify({ token, rows }));
   } catch (error: any) {
     return new Response(
       JSON.stringify({
