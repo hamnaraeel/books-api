@@ -13,10 +13,9 @@ export function getJwtSecretKey(): string {
 export async function getUserById(id: string) {
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
   });
   try {
-    const { rows } = await pool.query(`SELECT * FROM books WHERE id = ${id}`);
+    const { rows } = await pool.query(`SELECT * FROM user WHERE id = ${id}`);
     return new Response(JSON.stringify({ rows }));
   } catch (err) {
     throw err;
