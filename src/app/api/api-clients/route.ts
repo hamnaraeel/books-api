@@ -1,6 +1,5 @@
 import { Pool } from "@neondatabase/serverless";
 import { v4 as uuidv4 } from "uuid";
-import Joi from "joi";
 import { setUserToken } from "@/lib/auth";
 
 export async function POST(request: Request) {

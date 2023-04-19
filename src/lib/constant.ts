@@ -10,14 +10,14 @@ export function getJwtSecretKey(): string {
   return JWT_SECRET_KEY;
 }
 
-export async function getUserById(id: string) {
-  const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-  try {
-    const { rows } = await pool.query(`SELECT * FROM user WHERE id = ${id}`);
-    return new Response(JSON.stringify({ rows }));
-  } catch (err) {
-    throw err;
-  }
-}
+// export async function getUserById(id: string) {
+//   const pool = new Pool({
+//     connectionString: process.env.DATABASE_URL,
+//   });
+//   try {
+//     const { rows } = await pool.query(`SELECT * FROM user WHERE id = ${id}`);
+//     return new Response(JSON.stringify({ rows }));
+//   } catch (err) {
+//     throw err;
+//   }
+// }

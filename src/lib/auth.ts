@@ -1,6 +1,6 @@
 import type { NextRequest, NextResponse } from "next/server";
 import { SignJWT, jwtVerify } from "jose";
-import { USER_TOKEN, getJwtSecretKey, getUserById } from "./constant";
+import { USER_TOKEN, getJwtSecretKey } from "./constant";
 
 interface UserJwtPayload {
   jti: string;
@@ -28,6 +28,7 @@ export async function verifyAuth(request: NextRequest) {
 
 export async function setUserToken(id: any) {
   const token = await new SignJWT({})
+    .setProtectedHeader({ alg: "HS256" })
     .setJti(id)
     .setIssuedAt()
     .setExpirationTime("168h")
