@@ -35,6 +35,7 @@ export async function GET(request: Request) {
 // }
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
   const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const orderId = uuidv4(); // generate a unique token
@@ -44,7 +45,13 @@ export async function POST(request: Request) {
     [bookId, customerName, orderId]
   );
   return new Response(
-    JSON.stringify({ message: "Order created successfully", orderId })
+    JSON.stringify({ message: "Order created successfully", orderId }),
+    {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": origin || "*",
+      },
+    }
   );
 }
 
