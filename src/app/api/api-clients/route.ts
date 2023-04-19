@@ -4,16 +4,39 @@ import Joi from "joi";
 import { setUserToken } from "@/lib/auth";
 
 export async function POST(request: Request) {
-  const { clientName, clientEmail } = await request.json();
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const token = uuidv4(); // generate a unique token
-  const clientId = uuidv4(); // generate a unique token
+  try {
+    const { clientName, clientEmail } = await request.json();
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    const token = uuidv4(); // generate a unique token
+    const clientId = uuidv4(); // generate a unique token
 
-  const query =
-    "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)";
-  const values = [token, clientName, clientEmail];
-  const { rows } = await pool.query(query, values);
-  const userToken = await setUserToken(rows[0]);
-  return new Response(JSON.stringify({ token, userToken, rows }));
+    const query =
+      "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)";
+    const values = [token, clientName, clientEmail];
+    const { rows } = await pool.query(query, values);
+    const userToken = await setUserToken(rows[0]);
+    return new Response(JSON.stringify({ token, userToken, rows }), {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": origin || "*",
+      },
+    });
+  } catch (error: any) {
+    return new Response(
+      JSON.stringify({
+        message: error.message.includes(
+          "duplicate key value violates unique constraint"
+        )
+          ? "User already created try with different email"
+          : error.message,
+      }),
+      {
+        status: 400,
+        headers: {
+          "Access-Control-Allow-Origin": origin || "*",
+        },
+      }
+    );
+  }
 }
 export const runtime = "edge";
