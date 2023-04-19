@@ -26,13 +26,12 @@ export async function POST(request: Request) {
   const token = uuidv4(); // generate a unique token
   const clientId = uuidv4(); // generate a unique token
 
-  const query =
-    "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)";
+  const query = await pool.query(
+    "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)",
+    [token, clientName, clientEmail]
+  );
 
-  const values = [token, clientName, clientEmail];
-  await pool.query(query, values);
-
-  return new Response(JSON.stringify({ token }));
+  return new Response(JSON.stringify({ query, token }));
 }
 
 // export async function POST(request: Request) {
@@ -47,6 +46,7 @@ export async function POST(request: Request) {
 //     );
 
 //     return { order: result.rows[0] };
+// return new Response(JSON.stringify({ customerName }));
 //   } catch (error) {
 //     console.error(error);
 //     return new Response("Internal Server Error", { status: 500 });
