@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     "INSERT INTO orders (id, bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id";
   const values = [
     orderId,
-    book.id,
+    bookId,
     customerName,
     created,
     createdBy,
