@@ -20,15 +20,29 @@ export async function GET(request: Request) {
 //   return new Response(JSON.stringify({ orderId }));
 // }
 
+// export async function POST(request: Request) {
+//   const { clientName, clientEmail } = await request.json();
+//   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+//   const token = uuidv4(); // generate a unique token
+//   const clientId = uuidv4(); // generate a unique token
+
+//   const query = await pool.query(
+//     "INSERT INTO api_clients_token (accessToken, clientName, clientEmail) VALUES ($1, $2, $3)",
+//     [token, clientName, clientEmail]
+//   );
+
+//   return new Response(JSON.stringify({ query, token }));
+// }
+
 export async function POST(request: Request) {
-  const { clientName, clientEmail } = await request.json();
+  const { bookId, customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const token = uuidv4(); // generate a unique token
   const clientId = uuidv4(); // generate a unique token
 
   const query = await pool.query(
-    "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-    [1, clientName, false, "", 1, Date.now()]
+    "INSERT INTO orders (bookId, customerName, created, createdBy, quantity, timestamp) VALUES ($1, $2, $3, $4, $5, $6)",
+    [1, "customerName", true, "", 1, 4]
   );
 
   return new Response(JSON.stringify({ query, token }));
