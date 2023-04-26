@@ -20,9 +20,9 @@ export async function verifyAuth(request: NextRequest) {
       cookiesItems[1],
       new TextEncoder().encode(getJwtSecretKey())
     );
-    return verified.payload as UserJwtPayload;
+    return verified.payload as UserJwtPayload; // as string
   } catch (err) {
-    throw new Error("Your token has expired. Please try again");
+    throw new Error("Invalid token, Please send valid token.");
   }
 }
 

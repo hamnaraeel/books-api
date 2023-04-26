@@ -8,6 +8,7 @@ export async function GET(
     params: { id: string };
   }
 ) {
+  const apiClientId = request.headers.get("reqUser"); // for check the user in db
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
     `SELECT * FROM orders_list3 WHERE bookId = ${params.id}`
