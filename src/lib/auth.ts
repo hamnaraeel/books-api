@@ -20,7 +20,8 @@ export async function verifyAuth(request: NextRequest) {
       cookiesItems[1],
       new TextEncoder().encode(getJwtSecretKey())
     );
-    return verified.payload as UserJwtPayload; // as string
+    // return verified.payload as UserJwtPayload; // as string
+    return verified.payload as unknown as string; // as string
   } catch (err) {
     throw new Error("Invalid token, Please send valid token.");
   }
