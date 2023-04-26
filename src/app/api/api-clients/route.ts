@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const values = [token, clientName, clientEmail];
   const { rows }: any = await pool.query(query, values);
 
-  const userToken = await setUserToken(token);
+  const userToken = await setUserToken(rows[0]);
   return new Response(JSON.stringify({ token, userToken, rows }));
 }
 export const runtime = "edge";

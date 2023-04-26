@@ -3,35 +3,42 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 
 export async function GET(request: Request) {
-  const apiClientId = request.headers.get("reqUser");
-  const origin = request.headers.get("origin");
-  const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  });
-  try {
-    const { rows } = await pool.query("SELECT * FROM orders_list4");
-    // event.waitUntil(pool.end());  // doesn't hold up the response
-    return new Response(JSON.stringify(rows), {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({
-        message: error.message,
-      }),
-      {
-        status: 400,
-        headers: {
-          "Access-Control-Allow-Origin": origin || "*",
-        },
-      }
-    );
-  }
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const { rows } = await pool.query("SELECT * FROM orders_list3");
+  // event.waitUntil(pool.end());  // doesn't hold up the response
+  return new Response(JSON.stringify(rows));
 }
+
+// export async function GET(request: Request) {
+//   const apiClientId = request.headers.get("reqUser");
+//   const origin = request.headers.get("origin");
+//   const pool = new Pool({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true,
+//   });
+//   try {
+//     const { rows } = await pool.query("SELECT * FROM orders_list4");
+//     // event.waitUntil(pool.end());  // doesn't hold up the response
+//     return new Response(JSON.stringify(rows), {
+//       status: 200,
+//       headers: {
+//         "Access-Control-Allow-Origin": "*",
+//       },
+//     });
+//   } catch (error: any) {
+//     return new Response(
+//       JSON.stringify({
+//         message: error.message,
+//       }),
+//       {
+//         status: 400,
+//         headers: {
+//           "Access-Control-Allow-Origin": origin || "*",
+//         },
+//       }
+//     );
+//   }
+// }
 
 // export async function POST(request: Request) {
 //   const { bookId, customerName } = await request.json();
@@ -56,6 +63,21 @@ export async function GET(request: Request) {
 //   );
 
 //   return new Response(JSON.stringify({ query, token }));
+// }
+
+// export async function POST(request: Request) {
+//   const apiClientId = request.headers.get("reqUser");
+//   const { bookId, customerName } = await request.json();
+//   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+//   const orderId = uuidv4(); // generate a unique token
+
+//   const query = await pool.query(
+//     "INSERT INTO orders_list3 ( bookId,customerName, orderId) VALUES ($1, $2, $3)", // in created by add apiClientId
+//     [bookId, customerName, orderId]
+//   );
+//   return new Response(
+//     JSON.stringify({ message: "Order created successfully", orderId })
+//   );
 // }
 
 export async function POST(request: Request) {
