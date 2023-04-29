@@ -21,7 +21,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/orders/:path*", "/api/orders"],
+  matcher: "/api/orders/:path*",
+  // matcher: ["/api/orders/:path*", "/api/orders"],
 };
 
 // // This function can be marked `async` if using `await` inside
