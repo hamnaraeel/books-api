@@ -13,7 +13,6 @@ export async function GET(
     `SELECT * FROM books WHERE id = ${params.id}`
   );
   console.log(rows);
-  // event.waitUntil(pool.end());  // doesn't hold up the response
   return new Response(JSON.stringify(rows[0]));
 }
 
