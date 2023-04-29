@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   });
   if (token) {
     const headers = new Headers(request.headers);
-    headers.set("reqUser", JSON.stringify(token.jti.id)); // if string its not jti.id only jti
+    headers.set("reqUser", JSON.stringify(token.jti)); // if string its not jti.id only jti
     return NextResponse.next({
       request: {
         headers,
@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/orders/:path*" /*, "/api/orders"*/],
+  matcher: ["/api/orders/:path*", "/api/orders"],
 };
 
 // // This function can be marked `async` if using `await` inside
