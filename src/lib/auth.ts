@@ -27,6 +27,7 @@ export async function verifyAuth(request: NextRequest) {
 }
 
 export async function setUserToken(id: any) {
+  console.log("in auth:", id);
   const token = await new SignJWT({})
     .setProtectedHeader({ alg: "HS256" })
     .setJti(id)
