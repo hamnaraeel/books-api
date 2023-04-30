@@ -1,4 +1,4 @@
-import type { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { SignJWT, jwtVerify } from "jose";
 import { USER_TOKEN, getJwtSecretKey } from "./constant";
 
@@ -13,7 +13,7 @@ export async function verifyAuth(request: NextRequest) {
     request.headers.get("Authorization");
 
   if (!token) throw new Error("Missing token");
-
+  // if (!token) return NextResponse.json({ message: "Missing token" });
   try {
     const cookiesItems = token.split(" ");
     const verified = await jwtVerify(
@@ -21,7 +21,7 @@ export async function verifyAuth(request: NextRequest) {
       new TextEncoder().encode(getJwtSecretKey())
     );
     // return verified.payload as UserJwtPayload; // as string
-    return verified.payload as unknown as string; // as string
+    return verified.payload; // as string
   } catch (err) {
     throw new Error("Invalid token, Please send valid token.");
   }
@@ -32,7 +32,7 @@ export async function setUserToken(id: any) {
     .setProtectedHeader({ alg: "HS256" })
     .setJti(id)
     .setIssuedAt()
-    .setExpirationTime("168h")
+    .setExpirationTime("1d")
     .sign(new TextEncoder().encode(getJwtSecretKey()));
   return token;
 }

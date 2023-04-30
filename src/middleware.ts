@@ -6,7 +6,10 @@ import { verifyAuth } from "./lib/auth";
 export async function middleware(request: NextRequest) {
   const token: any = await verifyAuth(request).catch((err) => {
     console.error(err.message);
-    return NextResponse.json({ message: "missing token" }, { status: 401 });
+    return new NextResponse(JSON.stringify({ message: "Invalid token" }), {
+      status: 401,
+    });
+    // return NextResponse.json({ message: "missing token" }, { status: 401 });
   });
   if (token) {
     const headers = new Headers(request.headers);
@@ -18,11 +21,11 @@ export async function middleware(request: NextRequest) {
     });
   }
   return NextResponse.json({ message: "Auth required" }, { status: 401 });
+  // return new NextResponse( message: "Auth required" , { status: 401 });
 }
 
 export const config = {
-  matcher: "/api/orders/:path*",
-  // matcher: ["/api/orders/:path*", "/api/orders"],
+  matcher: ["/api/orders/:path*", "/api/orders"],
 };
 
 // // This function can be marked `async` if using `await` inside
