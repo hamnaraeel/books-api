@@ -18,4 +18,4 @@ export async function POST(request: Request) {
   const userToken = await setUserToken(rows[0]);
   return new Response(JSON.stringify({ token, userToken, rows }));
 }
-// export const runtime = "edge";
+export const runtime = "edge";
