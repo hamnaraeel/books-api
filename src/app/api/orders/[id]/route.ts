@@ -11,7 +11,7 @@ export async function GET(
   const apiClientId = request.headers.get("reqUser"); // for check the user in db
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
-    `SELECT * FROM orders_list4 WHERE orderId = ${params.id}`
+    `SELECT * FROM orders_list4 WHERE bookId = ${params.id}`
   );
   console.log(rows);
   // event.waitUntil(pool.end());  // doesn't hold up the response
@@ -29,7 +29,7 @@ export async function PUT(
   const { customerName } = await request.json();
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
-    `UPDATE orders_list4 SET customername = $1 WHERE orderId = $2 RETURNING *`,
+    `UPDATE orders_list4 SET customername = $1 WHERE bookId = $2 RETURNING *`,
     [customerName, params.id]
   );
   console.log(rows);
@@ -47,7 +47,7 @@ export async function DELETE(
 ) {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
   const { rows } = await pool.query(
-    `DELETE FROM orders_list4 WHERE orderId = ${params.id} RETURNING *`
+    `DELETE FROM orders_list4 WHERE bookId = ${params.id} RETURNING *`
   );
   console.log(rows);
   // event.waitUntil(pool.end());  // doesn't hold up the response
