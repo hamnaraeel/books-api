@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
     // return NextResponse.json({ message: "missing token" }, { status: 401 });
   });
   if (!token) {
-    return new NextResponse(JSON.stringify({ message: "Invalid token" }), {
+    return new NextResponse(JSON.stringify({ message: "Auth Required" }), {
       status: 401,
     });
   }
