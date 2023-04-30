@@ -11,6 +11,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const apiClientId = request.headers.get("reqUser");
+  console.log("Db token: ", process.env.DATABSE_URL);
   const origin = request.headers.get("origin");
   try {
     const { bookId, customerName } = await request.json();
@@ -45,4 +46,4 @@ export async function POST(request: Request) {
   }
 }
 
-export const runtime = "edge";
+// export const runtime = "edge";

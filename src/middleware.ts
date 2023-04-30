@@ -5,15 +5,19 @@ import { verifyAuth } from "./lib/auth";
 
 export async function middleware(request: NextRequest) {
   const token: any = await verifyAuth(request).catch((err) => {
-    console.error(err.message);
+    console.error("err in mw", err.message);
+    // return NextResponse.json({ message: "missing token" }, { status: 401 });
+  });
+  if (!token) {
     return new NextResponse(JSON.stringify({ message: "Invalid token" }), {
       status: 401,
     });
-    // return NextResponse.json({ message: "missing token" }, { status: 401 });
-  });
+  }
+  console.log("token in mw", token);
   if (token) {
     const headers = new Headers(request.headers);
     headers.set("reqUser", JSON.stringify(token.jti)); // if string its not jti.id only jti
+    console.log(headers);
     return NextResponse.next({
       request: {
         headers,

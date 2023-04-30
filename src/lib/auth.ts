@@ -11,7 +11,6 @@ export async function verifyAuth(request: NextRequest) {
   const token =
     request.headers.has("Authorization") &&
     request.headers.get("Authorization");
-
   if (!token) throw new Error("Missing token");
   // if (!token) return NextResponse.json({ message: "Missing token" });
   try {
